@@ -33,7 +33,6 @@ const Addproduct = () => {
   const navigate = useNavigate();
   const [color, setColor] = useState([]);
   const [images, setImages] = useState([]);
-  console.log(color);
   useEffect(() => {
     dispatch(getBrands());
     dispatch(getCategories());
@@ -97,7 +96,6 @@ const Addproduct = () => {
   });
   const handleColors = (e) => {
     setColor(e);
-    console.log(color);
   };
   return (
     <div>

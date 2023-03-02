@@ -11,8 +11,7 @@ export const MyAxios = axios.create({
       getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
     }`,
     Accept: "application/json",
-    "Access-Control-Allow-Origin": "*",
-    "Content-Type": "multipart/form-data",
+    "Access-Control-Allow-Origin": "*"
   },
 });
 
