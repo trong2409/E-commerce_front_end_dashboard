@@ -39,10 +39,6 @@ const Addcat = () => {
     if (isSuccess && createdCategory) {
       toast.success("Category Added Successfullly!");
     }
-    if (isSuccess && updatedCategory) {
-      toast.success("Category Updated Successfullly!");
-      navigate("/admin/list-category");
-    }
     if (isError) {
       toast.error("Something Went Wrong!");
     }

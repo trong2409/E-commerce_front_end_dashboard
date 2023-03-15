@@ -12,7 +12,8 @@ import {
   updateAColor,
 } from "../features/color/colorSlice";
 let schema = yup.object().shape({
-  title: yup.string().required("Color is Required"),
+  title: yup.string().required("Name is Required"),
+  color: yup.string().required("Color is Required"),
 });
 const Addcolor = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const Addcolor = () => {
     updatedColor,
     colorName,
   } = newColor;
+
   useEffect(() => {
     if (getColorId !== undefined) {
       dispatch(getAColor(getColorId));
@@ -35,22 +37,21 @@ const Addcolor = () => {
       dispatch(resetState());
     }
   }, [getColorId]);
+
   useEffect(() => {
     if (isSuccess && createdColor) {
       toast.success("Color Added Successfullly!");
-    }
-    if (isSuccess && updatedColor) {
-      toast.success("Color Updated Successfullly!");
-      navigate("/admin/list-color");
     }
     if (isError) {
       toast.error("Something Went Wrong!");
     }
   }, [isSuccess, isError, isLoading, createdColor]);
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      title: colorName || "",
+      title: "",
+      color: "#000000",
     },
     validationSchema: schema,
     onSubmit: (values) => {
@@ -75,11 +76,19 @@ const Addcolor = () => {
       <div>
         <form action="" onSubmit={formik.handleSubmit}>
           <CustomInput
-            type="color"
-            label="Enter Product Color"
+            type="text"
+            label="Enter Name"
             onChng={formik.handleChange("title")}
             onBlr={formik.handleBlur("title")}
             val={formik.values.title}
+            id="name"
+          />
+          <CustomInput
+            type="color"
+            label="Enter Color"
+            onChng={formik.handleChange("color")}
+            onBlr={formik.handleBlur("color")}
+            val={formik.values.color}
             id="color"
           />
           <div className="error">

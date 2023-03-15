@@ -1,35 +1,32 @@
-import axios from "axios";
-import { base_url } from "../../utils/baseUrl";
-import { config } from "../../utils/axiosconfig";
+import { MyAxios } from "../../utils/axiosconfig";
 
 const getColors = async () => {
-  const response = await axios.get(`${base_url}color/`);
+  const response = await MyAxios.get(`color/`);
 
   return response.data;
 };
 const createColor = async (color) => {
-  const response = await axios.post(`${base_url}color/`, color, config);
+  const response = await MyAxios.post(`color/`, color);
 
   return response.data;
 };
 
 const updateColor = async (color) => {
-  const response = await axios.put(
-    `${base_url}color/${color.id}`,
-    { title: color.colorData.title },
-    config
+  const response = await MyAxios.put(
+    `color/${color.id}`,
+    { title: color.colorData.title }
   );
 
   return response.data;
 };
 const getColor = async (id) => {
-  const response = await axios.get(`${base_url}color/${id}`, config);
+  const response = await MyAxios.get(`color/${id}`);
 
   return response.data;
 };
 
 const deleteColor = async (id) => {
-  const response = await axios.delete(`${base_url}color/${id}`, config);
+  const response = await MyAxios.delete(`color/${id}`);
 
   return response.data;
 };

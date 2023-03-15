@@ -45,12 +45,6 @@ const Colorlist = () => {
       name: colorState[i].title,
       action: (
         <>
-          <Link
-            to={`/admin/color/${colorState[i]._id}`}
-            className=" fs-3 text-danger"
-          >
-            <BiEdit />
-          </Link>
           <button
             className="ms-3 fs-3 text-danger bg-transparent border-0"
             onClick={() => showModal(colorState[i]._id)}
@@ -63,11 +57,8 @@ const Colorlist = () => {
   }
   const deleteColor = (e) => {
     dispatch(deleteAColor(e));
-
     setOpen(false);
-    setTimeout(() => {
-      dispatch(getColors());
-    }, 100);
+    dispatch(getColors());
   };
   return (
     <div>

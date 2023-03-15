@@ -39,7 +39,7 @@ const MainLayout = () => {
     }
   }, [auth]);
   return (
-    <Layout /* onContextMenu={(e) => e.preventDefault()} */>
+    <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="logo">
           <h2 className="text-white fs-5 text-center py-3 mb-0">

@@ -36,6 +36,8 @@ let schema = yup.object().shape({
 const Addproduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const getProductId = location.pathname.split("/")[3];
   const [color, setColor] = useState([]);
   const [images, setImages] = useState([]);
   const brandState = useSelector((state) => state.brand.brands);
@@ -43,7 +45,8 @@ const Addproduct = () => {
   const colorState = useSelector((state) => state.color.colors);
   const imgState = useSelector((state) => state.upload.images);
   const productState = useSelector((state) => state.product);
-  const { isSuccess, isError, isLoading, createdProduct } = productState;
+  const { isSuccess, isError, isLoading, createdProduct, product } =
+    productState;
 
   useEffect(() => {
     dispatch(getBrands());
@@ -51,9 +54,28 @@ const Addproduct = () => {
     dispatch(getColors());
   }, []);
   useEffect(() => {
+    if (getProductId !== undefined) {
+      dispatch(getProduct(getProductId));
+      // img.push(blogImages);
+      setColor(product?.color);
+    } else {
+      dispatch(resetState());
+      formik.values.title = "";
+      formik.values.description = "";
+      formik.values.price = "";
+      formik.values.brand = "";
+      formik.values.category = "";
+      formik.values.tags = "";
+      formik.values.quantity = "";
+    }
+  }, [getProductId]);
+  useEffect(() => {
     if (isSuccess && createdProduct) {
       toast.success("Product Added Successfullly!");
     }
+    // if (isSuccess && product) {
+    //   toast.success("Update Successfullly!");
+    // }
     if (isError) {
       toast.error("Something Went Wrong!");
     }
@@ -75,7 +97,7 @@ const Addproduct = () => {
     onSubmit: (values) => {
       dispatch(createProducts(values));
       formik.resetForm();
-      setColor([]);
+      setColor(null);
       setTimeout(() => {
         dispatch(resetState());
       }, 3000);
@@ -99,16 +121,28 @@ const Addproduct = () => {
   });
 
   useEffect(() => {
-    formik.values.color = color ? color : "";
+    if (product) {
+      formik.values.title = product?.title;
+      formik.values.description = product?.description;
+      formik.values.price = product?.price;
+      formik.values.brand = product?.brand;
+      formik.values.category = product?.category;
+      formik.values.tags = product?.tags;
+      formik.values.quantity = product?.quantity;
+      setColor(product?.color);
+    }
+    formik.values.color = color;
     formik.values.images = img;
-  }, [color, img]);
+  }, [color, img, product]);
 
   const handleColors = (e) => {
     setColor(e);
   };
   return (
     <div>
-      <h3 className="mb-4 title">Add Product</h3>
+      <h3 className="mb-4 title">
+        {getProductId === undefined ? "Add" : "Edit"} Product
+      </h3>
       <div>
         <form
           onSubmit={formik.handleSubmit}
@@ -211,6 +245,7 @@ const Addproduct = () => {
             allowClear
             className="w-100"
             placeholder="Select colors"
+            defaultValue={color}
             onChange={(i) => handleColors(i)}
             options={coloropt}
             value={color}

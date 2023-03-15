@@ -137,6 +137,10 @@ export const colorSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.deletedColor = action.payload.title;
+        state.colors.splice(
+          state.colors.findIndex((val) => val.title === state.deletedColor),
+          1
+        );
       })
       .addCase(deleteAColor.rejected, (state, action) => {
         state.isLoading = false;
